@@ -111,20 +111,21 @@ DoublyLinkedList.prototype.set = function(index, val){
 }
 
 DoublyLinkedList.prototype.pop = function(){
+    let nodeToRemove;
 
-    if(this.head===null)
+    if(this.tail===null)
     {
         return undefined
     }
     else {
-        let nodeToRemove = this.tail
+         nodeToRemove = this.tail
         this.tail=this.tail.prev
         this.tail.next=null
         nodeToRemove.next=null
     }
 this.length--;
 return nodeToRemove.val
-    }
+}
     
 
 
@@ -137,7 +138,9 @@ DoublyLinkedList.prototype.shift = function(){
       else{
         let temp = this.head;
       this.head = this.head.next;
+      if(this.head!==null){
       this.head.prev=null;
+      }
       temp.next = null;
       
     
@@ -148,9 +151,31 @@ DoublyLinkedList.prototype.shift = function(){
 }
 
 DoublyLinkedList.prototype.remove = function(index){
+    let previousNode = this.getNode(index-1)
+    if(this.head===null){
+        return undefined
+    }
+    else{
+    let nodeToRemove = previousNode.next
+    previousNode.next=previousNode.next.next
+    previousNode.next.next.prev=previousNode
+    nodeToRemove.next=null
+    }
+    this.length--
+    return nodeToRemove.val
     
 }
 
 DoublyLinkedList.prototype.reverse = function(){
-    
+    let tempNode = this.head;
+    this.head = this.tail;
+    this.tail = tempNode;
+    for (let i = 0; i< this.length; i++) {
+        const prev = tempNode.prev;
+        const next = tempNode.next;
+        tempNode.prev = next;
+        tempNode.next = prev;
+        tempNode = next;
+    }
+
 }
